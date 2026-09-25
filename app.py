@@ -59,4 +59,19 @@ elif option == "📊 My Projects":
 
 elif option == "🎤 Presentations":
     st.header("🎤 Presentations")
-    st.info("Your presentations will appear here.")
+
+    st.write("Upload your presentation and access it when you need to present.")
+
+    presentation = st.file_uploader(
+        "Choose your presentation",
+        type=["pptx", "pdf"]
+    )
+
+    if presentation is not None:
+        st.success(f"{presentation.name} uploaded successfully!")
+
+        st.download_button(
+            "⬇️ Download Presentation",
+            data=presentation.getvalue(),
+            file_name=presentation.name
+        )
