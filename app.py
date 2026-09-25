@@ -1,5 +1,8 @@
 import streamlit as st
-
+from supabase import create-client
+SUPABASE_URL=st.secrets["https://ypxkpfuhawjnccmqaxvv.supabase.co/rest/v1/"]
+SUPABASE_URL=st.secrets["sb_publishable_CN4LpskLdT5XolWHDxyCLQ_n_8yiuXh"]
+supabase= create_client(SUPABASE_URL, SUPABASE_KEY)
 st.set_page_config(
     page_title="Student Space",
     page_icon="🎓",
