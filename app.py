@@ -43,11 +43,24 @@ elif option == "📁 My Files":
                 uploaded_file.name,
                 file_bytes
             )
-
             st.success(f"✅ {uploaded_file.name} saved permanently!")
 
         except Exception as e:
             st.error(f"Upload failed: {e}")
+
+    st.subheader("📂 Your Saved Files")
+
+    try:
+        files = supabase.storage.from_("student-files").list()
+
+        if files:
+            for file in files:
+                st.write(f"📄 {file['name']}")
+        else:
+            st.info("No files saved yet.")
+
+    except Exception as e:
+        st.error(f"Could not load files: {e}")
 
 elif option == "📊 My Projects":
     st.header("📊 My Projects")
