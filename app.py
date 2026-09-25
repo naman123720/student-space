@@ -53,7 +53,7 @@ elif option == "📁 My Files":
     try:
         files = supabase.storage.from_("student-files").list()
 
-       if files:
+       try:
            for file in files:
         file_name = file["name"]
         st.write(f"📄 {file_name}")
