@@ -51,8 +51,7 @@ elif option == "📁 My Files":
     st.subheader("📂 Your Saved Files")
 
     try:
-        files =
-        supabase.storage.from_("student-files").list()
+        files =supabase.storage.from_("student-files").list()
 
         if files:
             for file in files:
