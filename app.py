@@ -36,12 +36,18 @@ elif option == "📁 My Files":
     )
 
     if uploaded_file is not None:
-        st.success(f"{uploaded_file.name} uploaded successfully!")
-        st.download_button(
-            "⬇️ Download File",
-            data=uploaded_file.getvalue(),
-            file_name=uploaded_file.name
-        )
+        file_bytes = uploaded_file.getvalue()
+
+        try:
+            supabase.storage.from_("student-files").upload(
+                uploaded_file.name,
+                file_bytes
+            )
+
+            st.success(f"✅ {uploaded_file.name} saved permanently!")
+
+        except Exception as e:
+            st.error(f"Upload failed: {e}")
 
 elif option == "📊 My Projects":
     st.header("📊 My Projects")
