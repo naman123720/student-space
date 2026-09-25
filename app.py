@@ -55,7 +55,7 @@ elif option == "📁 My Files":
 
         if files:
             for file in files:
-        file_name = file["name"]
+                 file_name = file["name"]
         st.write(f"📄 {file_name}")
 
         try:
