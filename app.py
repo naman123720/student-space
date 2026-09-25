@@ -42,7 +42,20 @@ elif option == "📁 My Files":
 
 elif option == "📊 My Projects":
     st.header("📊 My Projects")
-    st.info("Your projects will appear here.")
+
+    st.subheader("➕ Add a New Project")
+
+    project_name = st.text_input("Project Name")
+    project_description = st.text_area("Project Description")
+
+    if st.button("Add Project"):
+        if project_name and project_description:
+            st.success(f"Project '{project_name}' added successfully!")
+            st.write("### Project Details")
+            st.write(f"**Name:** {project_name}")
+            st.write(f"**Description:** {project_description}")
+        else:
+            st.warning("Please enter both project name and description.")
 
 elif option == "🎤 Presentations":
     st.header("🎤 Presentations")
