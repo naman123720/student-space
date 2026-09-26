@@ -51,24 +51,24 @@ elif option == "📁 My Files":
     st.subheader("📂 Your Saved Files")
 
     try:
-        files =supabase.storage.from_("student-files").list()
+        files = supabase.storage.from_("student-files").list()
 
         if files:
             for file in files:
-                 file_name = file["name"]
-        st.write(f"📄 {file_name}")
+                file_name = file["name"]
+                st.write(f"📄 {file_name}")
 
-        try:
-            file_data = supabase.storage.from_("student files").download(file_name)
+                try:
+                    file_data = supabase.storage.from_("student-files").download(file_name)
 
-            st.download_button(
-                label=f"⬇️ Download {file_name}",
-                data=file_data,
-                file_name=file_name
-            )
+                    st.download_button(
+                        label=f"⬇️ Download {file_name}",
+                        data=file_data,
+                        file_name=file_name
+                    )
 
-        except Exception as e:
-            st.error(f"Could not download {file_name}: {e}")
+                except Exception as e:
+                    st.error(f"Could not download {file_name}: {e}")
         else:
             st.info("No files saved yet.")
 
