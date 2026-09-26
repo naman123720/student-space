@@ -52,6 +52,7 @@ elif option == "📁 My Files":
 
     try:
         files = supabase.storage.from_("student-files").list()
+        st.write(files)
 
         if files:
             for file in files:
