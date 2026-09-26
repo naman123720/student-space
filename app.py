@@ -59,7 +59,7 @@ elif option == "📁 My Files":
         st.write(f"📄 {file_name}")
 
         try:
-            file_data = supabase.storage.from_("student-files").download(file_name)
+            file_data = supabase.storage.from_("student files").download(file_name)
 
             st.download_button(
                 label=f"⬇️ Download {file_name}",
