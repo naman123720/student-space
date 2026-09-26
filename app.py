@@ -144,3 +144,20 @@ elif option == "🎤 Presentations":
         st.divider()
 
     st.success("✅ Your presentation is ready!")
+st.divider()
+
+st.subheader("⬇️ Download Presentation")
+
+presentation_text = f"Presentation: {presentation_name}\n\n"
+
+for i, slide in enumerate(st.session_state.slides):
+    presentation_text += f"SLIDE {i + 1}\n"
+    presentation_text += f"Title: {slide['title']}\n"
+    presentation_text += f"Content: {slide['content']}\n\n"
+
+st.download_button(
+    label="⬇️ Download Presentation",
+    data=presentation_text,
+    file_name=f"{presentation_name}.txt",
+    mime="text/plain"
+)
