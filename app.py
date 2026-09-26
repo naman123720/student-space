@@ -94,70 +94,89 @@ elif option == "📊 My Projects":
             st.warning("Please enter both project name and description.")
 
 elif option == "🎤 Presentations":
-    st.header("🎤 Presentations")
-    st.write("Create and edit your presentation.")
+    st.header("🎤 Presentation Editor")
 
     if "slides" not in st.session_state:
-        st.session_state.slides = [
-            {"title": "My First Slide", "content": "Write your content here..."}
-        ]
+        st.session_state.slides = [1]
 
-    st.subheader("➕ Create a Presentation")
+    if "current_slide" not in st.session_state:
+        st.session_state.current_slide = 1
 
-    presentation_name = st.text_input(
-        "Presentation Name",
-        value="My Presentation"
+    # Sidebar tools
+    st.sidebar.subheader("🎨 Presentation Tools")
+
+    background = st.sidebar.color_picker(
+        "Slide Background",
+        "#FFFFFF"
     )
 
-    for i, slide in enumerate(st.session_state.slides):
-        st.markdown(f"### Slide {i + 1}")
+    text_color = st.sidebar.color_picker(
+        "Text Color",
+        "#000000"
+    )
 
-        slide["title"] = st.text_input(
-            "Slide Title",
-            value=slide["title"],
-            key=f"title_{i}"
-        )
+    font_size = st.sidebar.slider(
+        "Font Size",
+        12,
+        60,
+        30
+    )
 
-        slide["content"] = st.text_area(
-            "Slide Content",
-            value=slide["content"],
-            height=150,
-            key=f"content_{i}"
-        )
+    # Slide controls
+    col1, col2, col3 = st.columns(3)
 
-    if st.button("➕ Add New Slide"):
-        st.session_state.slides.append(
-            {
-                "title": f"Slide {len(st.session_state.slides) + 1}",
-                "content": "Write your content here..."
-            }
-        )
-        st.rerun()
+    with col1:
+        if st.button("➕ Add Slide"):
+            st.session_state.slides.append(
+                len(st.session_state.slides) + 1
+            )
+            st.rerun()
 
-    st.divider()
+    with col2:
+        if st.button("⬅️ Previous"):
+            if st.session_state.current_slide > 1:
+                st.session_state.current_slide -= 1
+            st.rerun()
 
-    st.subheader("👀 Presentation Preview")
+    with col3:
+        if st.button("➡️ Next"):
+            if st.session_state.current_slide < len(st.session_state.slides):
+                st.session_state.current_slide += 1
+            st.rerun()
 
-    for i, slide in enumerate(st.session_state.slides):
-        st.markdown(f"## Slide {i + 1}: {slide['title']}")
-        st.write(slide["content"])
-        st.divider()
+    st.write(
+        f"Slide {st.session_state.current_slide} "
+        f"of {len(st.session_state.slides)}"
+    )
 
-    st.success("✅ Your presentation is ready!")
-st.divider()
+    # Text boxes
+    title = st.text_input(
+        "📝 Add Title",
+        placeholder="Type your title here..."
+    )
 
-st.subheader("⬇️ Download Presentation")
+    content = st.text_area(
+        "📝 Add Text",
+        placeholder="Type your content here...",
+        height=150
+    )
 
-presentation_text = f"Presentation: {presentation_name}\n\n"
+    # Slide preview
+    st.subheader("👀 Slide Preview")
 
-for i, slide in enumerate(st.session_state.slides):
-    presentation_text += f"SLIDE {i + 1}\n"
-    presentation_text += f"Title: {slide['title']}\n"
-    presentation_text += f"Content: {slide['content']}\n\n"
+    slide_html = f"""
+    <div style="
+        background-color:{background};
+        width:100%;
+        min-height:400px;
+        border:2px solid #333;
+        padding:40px;
+        text-align:center;
+        color:{text_color};
+    ">
+        <h1 style="font-size:{font_size}px;">{title}</h1>
+        <p style="font-size:20px;">{content}</p>
+    </div>
+    """
 
-st.download_button(
-    label="⬇️ Download Presentation",
-    data=presentation_text,
-    file_name=f"{presentation_name}.txt",
-    mime="text/plain"
-)
+    st.markdown(slide_html, unsafe_allow_html=True)
