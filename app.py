@@ -95,19 +95,52 @@ elif option == "📊 My Projects":
 
 elif option == "🎤 Presentations":
     st.header("🎤 Presentations")
+    st.write("Create and edit your presentation.")
 
-    st.write("Upload your presentation and access it when you need to present.")
+    if "slides" not in st.session_state:
+        st.session_state.slides = [
+            {"title": "My First Slide", "content": "Write your content here..."}
+        ]
 
-    presentation = st.file_uploader(
-        "Choose your presentation",
-        type=["pptx", "pdf"]
+    st.subheader("➕ Create a Presentation")
+
+    presentation_name = st.text_input(
+        "Presentation Name",
+        value="My Presentation"
     )
 
-    if presentation is not None:
-        st.success(f"{presentation.name} uploaded successfully!")
+    for i, slide in enumerate(st.session_state.slides):
+        st.markdown(f"### Slide {i + 1}")
 
-        st.download_button(
-            "⬇️ Download Presentation",
-            data=presentation.getvalue(),
-            file_name=presentation.name
+        slide["title"] = st.text_input(
+            "Slide Title",
+            value=slide["title"],
+            key=f"title_{i}"
         )
+
+        slide["content"] = st.text_area(
+            "Slide Content",
+            value=slide["content"],
+            height=150,
+            key=f"content_{i}"
+        )
+
+    if st.button("➕ Add New Slide"):
+        st.session_state.slides.append(
+            {
+                "title": f"Slide {len(st.session_state.slides) + 1}",
+                "content": "Write your content here..."
+            }
+        )
+        st.rerun()
+
+    st.divider()
+
+    st.subheader("👀 Presentation Preview")
+
+    for i, slide in enumerate(st.session_state.slides):
+        st.markdown(f"## Slide {i + 1}: {slide['title']}")
+        st.write(slide["content"])
+        st.divider()
+
+    st.success("✅ Your presentation is ready!")
