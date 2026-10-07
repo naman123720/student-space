@@ -1,5 +1,6 @@
 import streamlit as st 
 from supabase import create_client
+from drawing_tool import drawing_tool
 SUPABASE_URL=st.secrets["SUPABASE_URL"]
 SUPABASE_KEY=st.secrets["SUPABASE_KEY"]
 supabase= create_client(SUPABASE_URL, SUPABASE_KEY)
@@ -16,9 +17,14 @@ st.divider()
 
 option = st.selectbox(
     "Choose an option",
-    ["🏠 Home", "📁 My Files", "📊 My Projects", "🎤 Presentations"]
+    [
+        "🏠 Home",
+        "📁 My Files",
+        "📊 My Projects",
+        "🎤 Presentations",
+        "🎨 Drawing Studio"
+    ]
 )
-
 if option == "🏠 Home":
     st.header("Welcome to Student Space")
     st.write(
@@ -180,3 +186,5 @@ elif option == "🎤 Presentations":
     """
 
     st.markdown(slide_html, unsafe_allow_html=True)
+elif option == "🎨 Drawing Studio":
+    drawing_tool()
