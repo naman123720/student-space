@@ -48,15 +48,21 @@ def drawing_tool():
         key="student_space_canvas",
     )
     # Download button
-    if canvas_result.image_data is not None:
+ if canvas_result.image_data is not None:
+    try:
         image = Image.fromarray(
             canvas_result.image_data.astype("uint8")
         )
+
         image_bytes = image.convert("RGB").tobytes()
+
         st.download_button(
             label="📥 Download Drawing",
             data=image_bytes,
             file_name="student_space_drawing.png",
             mime="image/png"
         )
+
+    except RuntimeError:
+        pass
   
